@@ -23,7 +23,9 @@ function getBookById(bookId, books) {
  ****************************************************************/
 function getAuthorByName(authorName, authors) {
   // Your code goes here
-  return authors.find((author) => author.name === authorName);
+  return authors.find(
+    (author) => author.name.toUpperCase() === authorName.toUpperCase()
+  );
 }
 // console.log(getAuthorByName("J.K. Rowling", authors));
 
@@ -35,11 +37,11 @@ function getAuthorByName(authorName, authors) {
  ****************************************************************/
 function bookCountsByAuthor(authors) {
   // Your code goes here
-  authors.map((author) => {
-    return {
-      authorName: author.name,
-      bookCount: author.books.length,
-    };
+  return authors.map((author) => {
+    ({
+      authorName: "author:" + author.name,
+      bookCount: "bookCount:" + author.books.length,
+    });
   });
 }
 // console.log(bookCountsByAuthor(authors));
@@ -59,10 +61,8 @@ function booksByColor(books) {
   //   color: [book.color];
   // });
   colors = books.map((book) => {
-     ({
-      bookColor:[book.color]
-    })
-
+    ({ bookColor: book.color });
+  });
   return colors;
 }
 // console.log(booksByColor(books));
@@ -77,6 +77,9 @@ function booksByColor(books) {
  ****************************************************************/
 function titlesByAuthorName(authorName, authors, books) {
   // Your code goes here
+  let ids = [];
+  ids = getAuthorByName(authorName, authors).books;
+  return ids.map((id) => getBookById(id, books));
 }
 // console.log(titlesByAuthorName("George R.R. Martin", authors, books));
 
@@ -89,7 +92,7 @@ function titlesByAuthorName(authorName, authors, books) {
  ****************************************************************/
 function mostProlificAuthor(authors) {
   // Your code goes here
-  authors.forEach((author, i = 0) => {
+  authors.forEach((author, i) => {
     let largest = author[i].books.length >= author[i + 1].books.length;
     return largest;
   });
