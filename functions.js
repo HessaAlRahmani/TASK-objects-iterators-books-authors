@@ -10,6 +10,7 @@ const books = require("./books.json");
  ****************************************************************/
 function getBookById(bookId, books) {
   // Your code goes here
+  return books.find((book) => book.id === bookId);
 }
 // console.log(getBookById(12, books));
 
@@ -22,6 +23,7 @@ function getBookById(bookId, books) {
  ****************************************************************/
 function getAuthorByName(authorName, authors) {
   // Your code goes here
+  return authors.find((author) => author.name === authorName);
 }
 // console.log(getAuthorByName("J.K. Rowling", authors));
 
@@ -33,6 +35,12 @@ function getAuthorByName(authorName, authors) {
  ****************************************************************/
 function bookCountsByAuthor(authors) {
   // Your code goes here
+  authors.map((author) => {
+    return {
+      authorName: author.name,
+      bookCount: author.books.length,
+    };
+  });
 }
 // console.log(bookCountsByAuthor(authors));
 
@@ -47,6 +55,13 @@ function booksByColor(books) {
   const colors = {};
 
   // Your code goes here
+  // colors = books.map((book) => {
+  //   color: [book.color];
+  // });
+  colors = books.map((book) => {
+     ({
+      bookColor:[book.color]
+    })
 
   return colors;
 }
@@ -74,6 +89,10 @@ function titlesByAuthorName(authorName, authors, books) {
  ****************************************************************/
 function mostProlificAuthor(authors) {
   // Your code goes here
+  authors.forEach((author, i = 0) => {
+    let largest = author[i].books.length >= author[i + 1].books.length;
+    return largest;
+  });
 }
 // console.log(mostProlificAuthor(authors));
 
