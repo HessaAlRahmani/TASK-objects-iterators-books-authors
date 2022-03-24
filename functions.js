@@ -37,12 +37,10 @@ function getAuthorByName(authorName, authors) {
  ****************************************************************/
 function bookCountsByAuthor(authors) {
   // Your code goes here
-  return authors.map((author) => {
-    ({
-      authorName: "author:" + author.name,
-      bookCount: "bookCount:" + author.books.length,
-    });
-  });
+  return authors.map((author) => ({
+    author: author.name,
+    bookCount: author.books.length,
+  }));
 }
 // console.log(bookCountsByAuthor(authors));
 
@@ -77,9 +75,9 @@ function booksByColor(books) {
  ****************************************************************/
 function titlesByAuthorName(authorName, authors, books) {
   // Your code goes here
-  let ids = [];
-  ids = getAuthorByName(authorName, authors).books;
-  return ids.map((id) => getBookById(id, books));
+  let author = getAuthorByName(authorName, authors);
+  if (author === undefined) return [];
+  return author.books.map((book) => getBookById(book, books).title);
 }
 // console.log(titlesByAuthorName("George R.R. Martin", authors, books));
 
@@ -92,10 +90,20 @@ function titlesByAuthorName(authorName, authors, books) {
  ****************************************************************/
 function mostProlificAuthor(authors) {
   // Your code goes here
-  authors.forEach((author, i) => {
-    let largest = author[i].books.length >= author[i + 1].books.length;
-    return largest;
+  let largest = 0;
+  let authorMost;
+  authors.forEach((author) => {
+    author.books.length > largest
+      ? ((largest = author.books.length), (authorMost = author))
+      : ((largest = largest), (authorMost = author));
+    return authorMost.name;
   });
+  // let most = 0;
+  // for (let i = 0; i <= authors.length; i++) {
+  //   if (most <= authors.books.length[i]) most = authors.books.length[i];
+  //   else most = authors.books.length[i - 1];
+  // }
+  // return most;
 }
 // console.log(mostProlificAuthor(authors));
 
@@ -124,6 +132,11 @@ function mostProlificAuthor(authors) {
  ****************************************************************/
 function relatedBooks(bookId, authors, books) {
   // Your code goes here
+  let authorsList = authors.filter((author) => author.books.includes(bookId));
+  let bookList = authorsList.map((author) =>
+    titlesByAuthorName(author.name, authors, books)
+  );
+  return bookList;
 }
 // console.log(relatedBooks(50, authors, books));
 
